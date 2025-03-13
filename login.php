@@ -1,3 +1,36 @@
+<?php
+    require 'config.php';
+
+    if(isset($_POST['connecter'])){
+        $erreur;
+        if(empty($_POST['email'])){
+          $erreur['email'] = "Veuillez entrer votre adresse email";
+        }elseif(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+          $erreur['email'] = "Veuillez entrer une adresse email valide";
+        }
+        if(empty($_POST['password'])){
+          $erreur['password'] = "Veuillez entrer votre mot de passe";
+        }
+        if(!empty($_POST['email']) && !empty($_POST['password'])){
+            $email = trim(htmlspecialchars($_POST['email']));
+            $password = trim(htmlspecialchars($_POST['password']));
+            $sqlConn = "SELECT * FROM utilisateur WHERE mailUser = :email AND motPasse = :motPasse";
+            $stmtConn = $conn->prepare($sqlConn);
+            $stmtConn->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmtConn->bindParam(':motPasse', $password, PDO::PARAM_STR);
+            $stmtConn->execute();
+            $result = $stmtConn->fetch(PDO::FETCH_ASSOC); //renvoie false si aucune donnée n'est trouvée
+            if($result){
+                $_SESSION['utilisateur'] = $result;
+                header("Location:index.php");
+                exit;
+            }else{
+                $erreur['password'] = "Email ou Mot de passe non valide!";
+            }
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,8 +72,9 @@
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
           <div class="mt-2">
-            <input type="email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+            <input type="text" name="email" id="email" value="<?php if(isset($_POST['email']))  echo $_POST['email']; ?>" autocomplete="email"  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
           </div>
+          <span class="text-sm/6 text-red-600"><?= isset($erreur['email']) ?  $erreur['email'] : ''?></span>
         </div>
 
         <div>
@@ -51,18 +85,19 @@
             </div>
           </div>
           <div class="mt-2">
-            <input type="password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+            <input type="password" name="password" id="password" autocomplete="current-password"  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
           </div>
+          <span class="text-sm/6 text-red-600"><?= isset($erreur['password']) ?  $erreur['password'] : ''?></span>
         </div>
 
         <div>
-          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Se connecter</button>
+          <button type="submit" name="connecter" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Se connecter</button>
         </div>
       </form>
 
       <p class="mt-10 text-center text-sm/6 text-gray-500">
         Vous n’avez pas de compte?
-        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">S'inscrire</a>
+        <a href="inscription.php" class="font-semibold text-indigo-600 hover:text-indigo-500">S'inscrire</a>
       </p>
     </div>
   </div>

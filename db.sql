@@ -6,7 +6,7 @@
 CREATE TABLE Evenement (
     eventId CHAR(6) PRIMARY KEY,
     eventType VARCHAR(50) NOT Null,
-    eventTitle VARCHAR(100) NOT Null,
+    eventTitle VARCHAR(100) NOT Null, 
     eventDescription TEXT NOT Null,
     TariffNormal DECIMAL(10, 2) NOT Null,
     TariffReduit DECIMAL(10, 2) NOT Null,
