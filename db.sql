@@ -27,7 +27,7 @@ CREATE TABLE Utilisateur (
     nomUser VARCHAR(30) NOT Null,
     prenomUser VARCHAR(30) NOT Null,
     mailUser VARCHAR(100) UNIQUE,
-    motPasse char(30) UNIQUE
+    motPasse char(30) NOT Null
 );	
 
 -- Create the 'Edition' table
@@ -87,10 +87,10 @@ INSERT INTO Utilisateur (idUser, nomUser, prenomUser, mailUser, motPasse) VALUES
 
 --Insertion dans la table Edition
 INSERT INTO Edition (dateEvent, timeEvent, eventId, numSalle, image) VALUES
-('2025-06-27', '20:00:00', 'EV001', 1, 'gnaoua2025.jpg'),
-('2025-07-15', '18:00:00', 'EV002', 2, 'moussem_asilah2025.jpg'),
-('2025-05-20', '21:00:00', 'EV003', 3, 'mawazine2025.jpg'),
-('2025-03-15', '19:00:00', 'EV004', 4, 'festival_nomades2025.jpg');
+('2025-06-27', '20:00:00', 'EV001', 1, 'gnaoua.jpg'),
+('2025-07-15', '18:00:00', 'EV002', 2, 'moussem_asilah.jpg'),
+('2025-05-20', '21:00:00', 'EV003', 3, 'mawazine.jpg'),
+('2025-03-15', '19:00:00', 'EV004', 4, 'festival_nomades.jpg');
 
 --Insertion dans la table Reservation
 INSERT INTO Reservation (qteBilletsNormal, qteBilletsReduit, editionId, idUser) VALUES

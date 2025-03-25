@@ -37,28 +37,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
-      
+     /* @theme {
+        --color-clifford: #da373d;
+      }*/
     </style>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              "roboto-regular": ["Roboto-regular", "sans-serif"],
-              "roboto-bold": ["Roboto-bold", "sans-serif"],
-              "roboto-bolder": ["Roboto-bolder", "sans-serif"],
-            },
-            colors: {
-              customPurpule: "#4A21A5",
-              branddarkblue: "#0a58ca",
-              "brand-text-blue": "#041d43",
-            },
-          },
-        },
-      };
-    </script>
 </head>
 <body>
   <div class="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
@@ -81,7 +65,7 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm/6 font-medium text-gray-900">Mot de passe</label>
             <div class="text-sm">
-              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Mot de passe oublié ?</a>
+              <a href="#" class="font-semibold  text-purple-600 hover:text-purple-700">Mot de passe oublié ?</a>
             </div>
           </div>
           <div class="mt-2">
@@ -91,13 +75,14 @@
         </div>
 
         <div>
-          <button type="submit" name="connecter" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Se connecter</button>
+          <button type="submit" name="connecter" class="flex w-full justify-center rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Se connecter</button>
         </div>
+    <!-- w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2.5 rounded-lg hover:opacity-90 transition flex items-center justify-center -->
       </form>
 
       <p class="mt-10 text-center text-sm/6 text-gray-500">
         Vous n’avez pas de compte?
-        <a href="inscription.php" class="font-semibold text-indigo-600 hover:text-indigo-500">S'inscrire</a>
+        <a href="inscription.php" class="font-semibold  text-purple-600 hover:text-purple-700">S'inscrire</a>
       </p>
     </div>
   </div>
