@@ -2,7 +2,7 @@
     require 'config.php';
 
     function getIdUser($conn){
-        $sqlId = "SELECT idUser FROM Utilisateur LIMIT 1";
+        $sqlId = "SELECT idUser FROM Utilisateur ORDER BY idUser DESC LIMIT 1";
         $stmtId = $conn->prepare($sqlId);
         $stmtId->execute();
         $id = $stmtId->fetch();

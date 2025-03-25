@@ -90,9 +90,9 @@
             <div class="px-6 py-4 flex justify-between items-center">
                 <div>
                     <p class="text-gray-500">À partir de</p>
-                    <p class="text-orange-500 "><?= $edition['TariffReduit'] ?> DH</p>
+                    <p class="text-indigo-600 "><?= $edition['TariffReduit'] ?> DH</p>
                 </div>
-                <a href="details.php?id=<?= $edition['editionId'] ?>" class=" bg-orange-500 text-white px-4 py-2 rounded">
+                <a href="details.php?id=<?= $edition['editionId'] ?>" class=" bg-indigo-600 text-white px-4 py-2 rounded">
                         J'achète
                 </a>
             </div>

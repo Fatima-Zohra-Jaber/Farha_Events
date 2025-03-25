@@ -32,7 +32,9 @@
             $stmt->bindParam(':id', $editionId, PDO::PARAM_INT);
             $stmt->execute();
             $capSalle = $stmt->fetch(PDO::FETCH_ASSOC);
-            $qtTotal = $qtNormal + $qtReduit;
+            var_dump($qtNormal);
+            var_dump($qtReduit);
+            $qtTotal = (int)$qtNormal + (int)$qtReduit;
 
             $sqlCount = "SELECT sum(qteBilletsNormal) as total_normal,sum(qteBilletsReduit) as total_reduit 
                         FROM reservation WHERE editionId = :id";
@@ -45,17 +47,15 @@
                 $_SESSION['error'] = "La quantité demandée est supérieure à la capacité de la salle";
                 echo("La quantité demandée est supérieure à la capacité de la salle");
             }else {
-                $_SESSION['reservation'][] = [
-                    'editionId' => $editionId,
-                    'qtNormal' => $qtNormal,
-                    'qtReduit' => $qtReduit
-                ];
+                $_SESSION['reservation']['editionId'] = $editionId;
+                $_SESSION['reservation']['qtNormal'] = $qtNormal;
+                $_SESSION['reservation']['qtReduit'] = $qtReduit;
+                // var_dump($_SESSION['reservation']);
                 header("Location: reservation.php");
                 exit();
             }
         } else {
-            $_SESSION['error'] = "Veuillez sélectionner au moins un billet";
-            echo("Veuillez sélectionner au moins un billet");
+            echo("La valeur de quantity doit être supérieure ou égale à 1.");
         }
     } catch (PDOException $e) {
         error_log("Reservation error: " . $e->getMessage());
@@ -78,19 +78,15 @@
         require 'header.php';
     ?>
     <div class="max-w-6xl mx-auto p-4">
-        <!-- Titre principal -->
         <h1 class="text-3xl font-bold text-center mb-6"><?=htmlspecialchars($edition['eventTitle'])?></h1>
         
         <div class="flex flex-col md:flex-row gap-4">
-            <!-- Affiche de l'événement -->
             <div class="w-full md:w-2/3">
                 <div class="rounded-lg overflow-hidden shadow-lg">
-                    <!-- Image principale -->
                     <img src="images/<?=htmlspecialchars($edition['image'])?>" alt="<?=htmlspecialchars($edition['eventTitle'])?>" class="w-full"/>
                 </div>
             </div>
             
-            <!-- Encart d'achat de billets -->
             <div class="w-full md:w-1/3 bg-gray-900 text-white rounded-lg shadow-lg p-6">                               
                 <div class="text-center mb-6">
                     <h3 class="font-bold mb-1"><?=htmlspecialchars($edition['dateEvent'])?></h3>
@@ -100,14 +96,14 @@
                 <form action="" method="POST">
                     <input type="hidden" name="editionId" value="<?= htmlspecialchars($id) ?>">
                     
-                    <div class="flex justify-between items-center mb-4 text-xs bg-blue-900 bg-opacity-40 p-3 rounded">
+                    <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
                         <label for="tariff" class="block text-sm font-medium mb-2">
                             <p>NORMAL (Adult)</p>
                             <p><?= htmlspecialchars($edition['TariffNormal']) ?> MAD</p>
                         </label>
                         <input type="number" id="qtNormal" name="qtNormal" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />
                     </div>
-                    <div class="flex justify-between items-center mb-4 text-xs bg-blue-900 bg-opacity-40 p-3 rounded">
+                    <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
                         <label for="tariff" class="block text-sm font-medium mb-2">
                             <p>REDUIT (Enfant + Etudiant)</p>
                             <p><?= htmlspecialchars($edition['TariffReduit']) ?> MAD</p>
@@ -115,8 +111,8 @@
                         <input type="number" id="qtReduit" name="qtReduit" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />     
                     </div>
                     
-                    <div class="flex justify-center items-center mb-4 px-2">
-                        <button type="submit" name="acheter" class="w-3/4 bg-green-600 hover:bg-green-700 text-white text-sm font-bold py-3 px-4 rounded mb-2">
+                    <div class="flex justify-center items-center mb-4 px-2"> 
+                        <button type="submit" name="acheter" class="w-3/4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-3 px-4 rounded mb-2">
                             Acheter maintenant
                         </button>
                     </div>
@@ -125,19 +121,19 @@
                
                 <!-- Compteur -->
                 <div class="flex justify-center gap-2 mb-2">
-                    <div class="bg-blue-900 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
+                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
                         <span class="font-bold" id="days">--</span>
                         <span class="text-xs">Jours</span>
                     </div>
-                    <div class="bg-blue-900 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
+                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
                         <span class="font-bold" id="hours">--</span>
                         <span class="text-xs">Heure</span>
                     </div>
-                    <div class="bg-blue-900 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
+                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
                         <span class="font-bold" id="minutes">--</span>
                         <span class="text-xs">Minute</span>
                     </div>
-                    <div class="bg-blue-900 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
+                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
                         <span class="font-bold" id="seconds">--</span>
                         <span class="text-xs">Second</span>
                     </div>
