@@ -6,10 +6,14 @@
         $stmtId = $conn->prepare($sqlId);
         $stmtId->execute();
         $id = $stmtId->fetch();
-        $idValue = $id['idUser'];
-        $number = (int)substr($idValue, 3);
-        $number++;
-        $nextId = "USR" . str_pad($number, 7, "0", STR_PAD_LEFT);
+        if(empty($id)){
+            $nextId = "USR0000001";
+        }else{
+            $idValue = $id['idUser'];
+            $number = (int)substr($idValue, 3);
+            $number++;
+            $nextId = "USR" . str_pad($number, 7, "0", STR_PAD_LEFT);
+        }
         return $nextId;
     }
     if(isset($_POST['enregistrer'])){

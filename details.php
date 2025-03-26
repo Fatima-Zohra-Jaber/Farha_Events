@@ -26,31 +26,30 @@
         $qtReduit = isset($_POST['qtReduit']) ? $_POST['qtReduit'] : 0;
         $editionId = $_POST['editionId'];
         if($qtNormal > 0 || $qtReduit > 0) {
-            $sql="SELECT s.capSalle FROM  salle s JOIN edition ed 
-                    ON s.NumSalle = ed.NumSalle WHERE ed.editionId = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':id', $editionId, PDO::PARAM_INT);
-            $stmt->execute();
-            $capSalle = $stmt->fetch(PDO::FETCH_ASSOC);
-            var_dump($qtNormal);
-            var_dump($qtReduit);
-            $qtTotal = (int)$qtNormal + (int)$qtReduit;
+            // $sql="SELECT s.capSalle FROM  salle s JOIN edition ed 
+            //         ON s.NumSalle = ed.NumSalle WHERE ed.editionId = :id";
+            // $stmt = $conn->prepare($sql);
+            // $stmt->bindParam(':id', $editionId, PDO::PARAM_INT);
+            // $stmt->execute();
+            // $capSalle = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sqlCount = "SELECT sum(qteBilletsNormal) as total_normal,sum(qteBilletsReduit) as total_reduit 
-                        FROM reservation WHERE editionId = :id";
-            $stmtCount = $conn->prepare($sqlCount);
-            $stmtCount->bindParam(':id', $editionId, PDO::PARAM_INT);
-            $stmtCount->execute();
-            $result = $stmtCount->fetch(PDO::FETCH_ASSOC);
-            $totalReserved = $result['total_normal'] + $result['total_reduit'];
-            if(($qtTotal + $totalReserved )> $capSalle['capSalle']) {
-                $_SESSION['error'] = "La quantité demandée est supérieure à la capacité de la salle";
+            $capSalle = getCapSalle($conn, $editionId);
+            $totalReserved = getNbBillets($conn, $editionId);
+            $qtTotal = (int)$qtNormal + (int)$qtReduit;
+            echo "capcite". $capSalle . "totalReserved" . $totalReserved . "qtTotal".$qtTotal;
+            // $sqlCount = "SELECT sum(qteBilletsNormal) as total_normal,sum(qteBilletsReduit) as total_reduit 
+            //             FROM reservation WHERE editionId = :id";
+            // $stmtCount = $conn->prepare($sqlCount);
+            // $stmtCount->bindParam(':id', $editionId, PDO::PARAM_INT);
+            // $stmtCount->execute();
+            // $result = $stmtCount->fetch(PDO::FETCH_ASSOC);
+            // $totalReserved = $result['total_normal'] + $result['total_reduit'];
+            if(($qtTotal + $totalReserved )> $capSalle) {
                 echo("La quantité demandée est supérieure à la capacité de la salle");
             }else {
                 $_SESSION['reservation']['editionId'] = $editionId;
                 $_SESSION['reservation']['qtNormal'] = $qtNormal;
                 $_SESSION['reservation']['qtReduit'] = $qtReduit;
-                // var_dump($_SESSION['reservation']);
                 header("Location: reservation.php");
                 exit();
             }

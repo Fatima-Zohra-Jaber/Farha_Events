@@ -19,7 +19,7 @@
             $stmtConn->bindParam(':email', $email, PDO::PARAM_STR);
             $stmtConn->bindParam(':motPasse', $password, PDO::PARAM_STR);
             $stmtConn->execute();
-            $result = $stmtConn->fetch(PDO::FETCH_ASSOC); //renvoie false si aucune donnée n'est trouvée
+            $result = $stmtConn->fetch(PDO::FETCH_ASSOC); 
             if($result){
                 $_SESSION['utilisateur'] = $result;
                 header("Location:index.php");
@@ -77,7 +77,6 @@
         <div>
           <button type="submit" name="connecter" class="flex w-full justify-center rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Se connecter</button>
         </div>
-    <!-- w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2.5 rounded-lg hover:opacity-90 transition flex items-center justify-center -->
       </form>
 
       <p class="mt-10 text-center text-sm/6 text-gray-500">
