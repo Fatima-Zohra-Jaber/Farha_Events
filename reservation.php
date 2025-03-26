@@ -78,7 +78,7 @@ if (!empty($_SESSION['reservation'])) {
             $numPlace++;
             insertBillet($conn, 'Reduit', $numPlace, $idReservation);
         }
-        header('Location: facture.php');
+        header('Location: facture.php?id=' . $idReservation);
 
     }
 } else {

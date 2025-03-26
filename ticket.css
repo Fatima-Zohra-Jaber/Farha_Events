@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.ticket {
+    display: flex;
+    width: 80%;
+    height: 55%;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* SECTION GAUCHE */
+.left-section {
+    background: black;
+    width: 7%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap:50;
+    padding: 25px 15px;
+    position: relative;
+}
+
+.ticket-number{
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.2rem;
+}
+
+.circle {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* SECTION MILIEU */
+.middle-section {
+    width: 70%;
+    display: flex;
+    gap:40px;
+    padding:3.5rem 3rem;
+}
+.titre, .info{
+    width: 50%;
+}
+h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.date {
+    background: #f4eee9;
+    padding: 1.2rem;
+    margin-top: 4rem;
+    font-size: 1.2rem;
+    display: inline-block;
+}
+
+.association {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.dot {
+    width: 25px;
+    height: 25px;
+    background: black;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+h2{
+    font-size: 1.6rem;
+}
+
+.details {
+    margin-top: 10px;
+}
+.tarif-type{
+    display: flex;
+    justify-content: space-between;
+    margin: 3rem 0 2rem 0;
+}
+.details p {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+.details span {
+    font-size: 1.4rem;
+    font-weight:500;
+    
+}
+/* SECTION DROITE */
+.right-section {
+    width: 23%;
+    background: #f4eee9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    position: relative;
+    border-left: 4px dashed black;
+    
+}
+/* .right-section  div{
+    writing-mode: vertical-rl;
+    transform: rotate(90deg);
+} */
+
+.cercleHaut,.cercleBas{
+    width: 60px;
+    height: 60px;
+    background: black;
+    border-radius: 50%;
+    position: absolute;
+    left: -40px;
+    top: 50%;
+}
+.cercleHaut{
+    top: -30px;
+}
+.cercleBas{
+    bottom: 0px
+}
+.barcode {
+    width: 400px;
+    height: 60px;
+    background: linear-gradient(90deg, black 20%, transparent 20%, transparent 40%, black 40%, black 60%, transparent 60%, transparent 80%, black 80%);
+    background-size: 10px 100%;
+    writing-mode: vertical-rl;
+    transform: rotate(90deg);
+}
+.rightInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap:80px
+}
+.seat-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+.label {
+    font-size: 1.2rem;
+}
+
+.value {
+    font-size: 2rem;
+    font-weight: bold;
+}
