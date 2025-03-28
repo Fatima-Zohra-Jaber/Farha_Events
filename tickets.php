@@ -1,6 +1,6 @@
 <?php
     require('config.php');
-    if (!empty($_GET['id'])) {
+    if (isset($_GET['id']) && (isset($_SESSION['utilisateur']))) {
     $id = $_GET['id'];
     $sql = "SELECT ev.eventTitle, ev.TariffNormal,ev.TariffReduit,ed.dateEvent, 
                     ed.timeEvent, r.qteBilletsNormal,r.qteBilletsReduit,ed.numSalle,
@@ -13,41 +13,19 @@
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // var_dump($result);
     if (!$result) {
         header("Location: index.php");
         exit();
     }
-    // $formattedDateTime = $dateTime->format('d/m/Y à H:i');
     
-
-    $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result[0]['dateEvent'] . ' ' . $result[0]['timeEvent']);
-
-    $formatter = new IntlDateFormatter(
-        'fr_FR',
-        IntlDateFormatter::FULL,
-        IntlDateFormatter::SHORT,
-        'Europe/Paris',
-        IntlDateFormatter::GREGORIAN,
-        "EEEE d MMMM yyyy 'À' HH'H'mm"
-    );
+    $dateTime = DateTime::createFromFormat( 'Y-m-d H:i:s', $result[0]['dateEvent'] . ' ' . $result[0]['timeEvent']);
+    $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
+    $formatter->setPattern('EEEE d MMMM y \'À\' HH\'H\'mm');
     
-//     $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $result[0]['dateEvent'] . ' ' . $result[0]['timeEvent']);
+    // echo mb_strtoupper($formatter->format($dateTime));
 
-// setlocale(LC_TIME, 'fr_FR.UTF-8', 'fr_FR', 'fr');
-
-// // Formater la date en français avec strftime() n'est plus possible, on utilise format()
-// $formattedDateTime = strftime('%A %d %B %Y À %HH%M', strtotime($dateTime->format('Y-m-d H:i:s')));
-
-// // Afficher en majuscules
-// echo mb_strtoupper($formattedDateTime, 'UTF-8');
-
-    
-    
-
-
-
-
+    // phpinfo();
+ 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -69,7 +47,7 @@
         <div class="middle-section">
             <div class="titre">
                 <h1><?=$billet['eventTitle']?></h1>
-                <div class="date"><?= mb_strtoupper($formatter->format($dateTime), 'UTF-8')?></div>
+                <div class="date"><?= mb_strtoupper($formatter->format($dateTime))?></div>
             <!-- SAMEDI 27 JANVIER 2024 À 20H00 -->
             </div>
             
@@ -82,7 +60,8 @@
                 <div class="details">
                     <div class="tarif-type">
                         <div class="tarif">
-                            <p class="bold">Tarif :</p><span>MAD 150,00</span> 
+                            <p class="bold">Tarif :</p>
+                            <span>MAD <?=$billet['typeBillet']==='Normal'? $billet['TariffNormal'] : $billet['TariffReduit'] ?></span> 
                         </div>
                         <div class="type">
                             <p class="bold">Type :</p><span> Tarif <?=$billet['typeBillet']?></span> 
@@ -102,11 +81,11 @@
             <div class="rightInfo">
                 <div class="seat-info">
                     <div class="label">PLACE</div>
-                    <div class="value"><?=$billet['placeNum']?></div>
+                    <div class="value"><?=str_pad($billet['placeNum'], 2, "0", STR_PAD_LEFT)?></div>
                 </div>
                 <div class="seat-info">
                     <div class="label">SALLE</div>
-                    <div class="value">0<?=$billet['numSalle']?></div>
+                    <div class="value"><?=str_pad($billet['numSalle'], 2, "0", STR_PAD_LEFT)?></div>
                 </div>
             </div>
             <div class="cercleBlock">

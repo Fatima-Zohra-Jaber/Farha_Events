@@ -1,11 +1,10 @@
 <?php
   require  'config.php';
-  if(!empty($_GET['id'])){
+  if(isset($_GET['id'])){
     $id = $_GET['id'];
     $sql = "SELECT ev.eventTitle,ev.eventType, ev.eventDescription, ev.TariffNormal,ev.TariffReduit,
                     ed.dateEvent, ed.timeEvent, ed.numSalle, ed.image
-            FROM evenement ev
-            JOIN edition ed ON ev.eventId = ed.eventId
+            FROM evenement ev JOIN edition ed ON ev.eventId = ed.eventId
             WHERE ed.editionId = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -20,47 +19,39 @@
     exit();
   }
 
-  if(isset($_POST['acheter'] )) {
-    try{
-        $qtNormal = isset($_POST['qtNormal']) ? $_POST['qtNormal'] : 0;
-        $qtReduit = isset($_POST['qtReduit']) ? $_POST['qtReduit'] : 0;
-        $editionId = $_POST['editionId'];
-        if($qtNormal > 0 || $qtReduit > 0) {
-            // $sql="SELECT s.capSalle FROM  salle s JOIN edition ed 
-            //         ON s.NumSalle = ed.NumSalle WHERE ed.editionId = :id";
-            // $stmt = $conn->prepare($sql);
-            // $stmt->bindParam(':id', $editionId, PDO::PARAM_INT);
-            // $stmt->execute();
-            // $capSalle = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $capSalle = getCapSalle($conn, $editionId);
-            $totalReserved = getNbBillets($conn, $editionId);
-            $qtTotal = (int)$qtNormal + (int)$qtReduit;
-            echo "capcite". $capSalle . "totalReserved" . $totalReserved . "qtTotal".$qtTotal;
-            // $sqlCount = "SELECT sum(qteBilletsNormal) as total_normal,sum(qteBilletsReduit) as total_reduit 
-            //             FROM reservation WHERE editionId = :id";
-            // $stmtCount = $conn->prepare($sqlCount);
-            // $stmtCount->bindParam(':id', $editionId, PDO::PARAM_INT);
-            // $stmtCount->execute();
-            // $result = $stmtCount->fetch(PDO::FETCH_ASSOC);
-            // $totalReserved = $result['total_normal'] + $result['total_reduit'];
-            if(($qtTotal + $totalReserved )> $capSalle) {
-                echo("La quantité demandée est supérieure à la capacité de la salle");
-            }else {
-                $_SESSION['reservation']['editionId'] = $editionId;
-                $_SESSION['reservation']['qtNormal'] = $qtNormal;
-                $_SESSION['reservation']['qtReduit'] = $qtReduit;
-                header("Location: reservation.php");
-                exit();
+  if(isset($_POST['acheter'])) {
+    if((isset($_SESSION['utilisateur']))){
+        try{
+            $qtNormal = isset($_POST['qtNormal']) ? $_POST['qtNormal'] : 0;
+            $qtReduit = isset($_POST['qtReduit']) ? $_POST['qtReduit'] : 0;
+            $editionId = $_POST['editionId'];
+            if($qtNormal > 0 || $qtReduit > 0) {
+                $capSalle = getCapSalle($conn, $editionId);
+                $totalReserved = getNbBillets($conn, $editionId);
+                $qtTotal = (int)$qtNormal + (int)$qtReduit;
+                if(($qtTotal + $totalReserved )> $capSalle) {
+                    $_SESSION['error'] ="La quantité demandée est supérieure à la capacité de la salle";
+                }else {
+                    $_SESSION['reservation']['editionId'] = $editionId;
+                    $_SESSION['reservation']['qtNormal'] = $qtNormal;
+                    $_SESSION['reservation']['qtReduit'] = $qtReduit;
+                    header("Location: reservation.php");
+                    exit();
+                }
+            } else {
+                $_SESSION['error'] ="La valeur de quantity doit être supérieure ou égale à 1.";
             }
-        } else {
-            echo("La valeur de quantity doit être supérieure ou égale à 1.");
+        } catch (PDOException $e) {
+            error_log("Reservation error: " . $e->getMessage());
+            $_SESSION['error'] = "Une erreur est survenue lors de la réservation";
         }
-    } catch (PDOException $e) {
-        error_log("Reservation error: " . $e->getMessage());
-        $_SESSION['error'] = "Une erreur est survenue lors de la réservation";
+    }else {
+        $_SESSION['error'] = "Veuillez vous connecter avant de commander.";
+        // header("Location: login.php");
+        // exit();
     }
-}
+ }
+
   
 ?>
 <!DOCTYPE html>
@@ -70,7 +61,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </head>
 <body class="bg-gray-100">
     <?php
@@ -146,41 +139,47 @@
         <h3>Description</h3><hr/>
         <p><?=htmlspecialchars($edition['eventDescription'])?></p>
     </div>
+<?php 
+ $eventDate = $edition['dateEvent'] . ' ' . $edition['timeEvent'] ;
+ $redirectUrl=isset($_SESSION['error']) && $_SESSION['error'] === 'Veuillez vous connecter avant de commander.' ? 'login.php' : '';
+ ?>
 
     <script>
-        // Script pour calculer le compte à rebours
-        document.addEventListener('DOMContentLoaded', function() {
-            // Récupérer la date de l'événement
-            const eventDate = "<?= $edition['dateEvent'] . ' ' . $edition['timeEvent']  ?>";
-            const countDownDate = new Date(eventDate).getTime();
-            
-            // Mettre à jour le compte à rebours toutes les secondes
-            const countdownTimer = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = countDownDate - now;
-                
-                // Calcul des jours, heures, minutes et secondes
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                // Affichage du résultat
-                document.getElementById("days").textContent = String(days).padStart(2, '0');
-                document.getElementById("hours").textContent = String(hours).padStart(2, '0');
-                document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
-                document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
-                
-                // Si le compte à rebours est terminé
-                if (distance < 0) {
-                    clearInterval(countdownTimer);
-                    document.getElementById("days").textContent = "00";
-                    document.getElementById("hours").textContent = "00";
-                    document.getElementById("minutes").textContent = "00";
-                    document.getElementById("seconds").textContent = "00";
-                }
-            }, 1000);
-        });
+        const eventDate = "<?= $eventDate ?>";
+        const redirectUrl="<?=$redirectUrl?>";
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
+
+<?php if(isset($_SESSION['error'])): ?>
+<div id="modelConfirm" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
+    <div class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md">
+        <div class="flex justify-end p-2">
+            <button onclick="closeModal('modelConfirm')" type="button"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="p-6 pt-0 text-center">
+            <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">
+                <?= $_SESSION['error']; ?>
+            </h3>
+            <a href="#" onclick="closeModal('modelConfirm')"
+                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-5 py-2.5 text-center mr-2">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+<?php unset($_SESSION['error']); ?>
+<?php endif; ?>

@@ -1,7 +1,7 @@
 <?php
 require('library/fpdf.php');
 require 'config.php';
-if (!empty($_GET['id'])) {
+if (isset($_GET['id']) && (isset($_SESSION['utilisateur']))) {
     $id = $_GET['id'];
     $sql = "SELECT ev.eventTitle, ev.TariffNormal,ev.TariffReduit,
                     ed.dateEvent, ed.timeEvent, r.qteBilletsNormal,r.qteBilletsReduit

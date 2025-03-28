@@ -1,5 +1,39 @@
 <?php
   require  'config.php';
+
+  $sql = "SELECT  ev.eventType, ev.eventTitle, ev.eventDescription, ev.TariffReduit,
+            ed.editionId, ed.dateEvent, ed.timeEvent, ed.numSalle, ed.image
+            FROM Evenement ev JOIN Edition ed on ev.eventId = ed.eventId
+            WHERE STR_TO_DATE(CONCAT(ed.dateEvent, ' ', ed.timeEvent), '%Y-%m-%d %H:%i:%s') > NOW()";
+  $params = [];
+  if(isset($_GET['search'])){
+    $titre = $_GET['titre'] ?? '';
+    $eventType = $_GET['type'] ?? '';
+    $dateStart = $_GET['dateStart'] ?? '';
+    $dateEnd = $_GET['dateEnd'] ?? '';
+
+    if (!empty($titre)) {
+        $sql .= " AND (eventTitle LIKE :titre OR eventDescription LIKE :titre)";
+        $params[':titre'] = "%".$titre."%";
+    }
+    if (!empty($eventType)) {
+        $sql .= " AND eventType = :eventType";
+        $params[':eventType'] = $eventType;
+    } 
+    if (!empty($dateStart) && !empty($dateEnd)) {
+        $sql .= " AND dateEvent BETWEEN :dateStart AND :dateEnd";
+        $params[':dateStart'] = $dateStart;
+        $params[':dateEnd'] = $dateEnd;
+    }
+  }
+ 
+  $stmt = $conn->prepare($sql);
+  foreach ($params as $key => $value) {
+      $stmt->bindParam($key, $value, PDO::PARAM_STR);
+  }
+  $stmt->execute();
+  $editions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,8 +51,35 @@
   <?php
     require 'header.php';
   ?>
+  <!-- Section de recherche -->
+<div class="max-w-screen-xl mx-auto p-5 bg-gradient-to-r from-purple-800 to-indigo-700 rounded-lg shadow-lg">
+    <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- Recherche par titre ou description -->
+        <input type="search" name="titre" placeholder="Rechercher par titre ou description"
+            value="<?= htmlspecialchars($titre) ?>" class="p-2 border border-gray-300 rounded-lg">
+
+        <!-- Sélection du type d'événement -->
+        <select name="type" class="p-2 border border-gray-300 rounded-lg">
+            <option value="">Tous les types</option>
+            <option value="Cinéma" <?= $eventType == "Cinéma" ? "selected" : "" ?>>Cinéma</option>
+            <option value="Musique" <?= $eventType == "Musique" ? "selected" : "" ?>>Musique</option>
+            <option value="Théatre" <?= $eventType == "Théatre" ? "selected" : "" ?>>Théatre</option>
+            <option value="Rencontres" <?= $eventType == "Rencontres" ? "selected" : "" ?>>Rencontres</option>
+
+        </select>
+
+        <!-- Sélection des dates -->
+        <input type="date" name="dateStart" value="<?= $dateStart ?>" class="p-2 border border-gray-300 rounded-lg">
+        <input type="date" name="dateEnd" value="<?= $dateEnd ?>" class="p-2 border border-gray-300 rounded-lg">
+
+        <!-- Bouton de soumission -->
+        <button type="submit" name="search" class=" text-indigo-700 bg-white hover:bg-gray-100 px-4 py-2 rounded-lg">
+            Rechercher
+        </button>
+    </form>
+</div>
   <!-- Hero background to show transparent navbar -->
-  <div class="bg-gradient-to-r from-purple-800 to-indigo-700 h-screen flex items-center justify-center">
+  <!-- <div class="bg-gradient-to-r from-purple-800 to-indigo-700 h-screen flex items-center justify-center">
       <div class="text-center text-white px-4">
           <h1 class="text-4xl font-extrabold sm:text-5xl md:text-6xl">
               Welcome to Our Website
@@ -32,7 +93,7 @@
               </a>
           </div>
       </div>
-  </div>
+  </div> -->
 <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
     <div class="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-10">
         <?php
