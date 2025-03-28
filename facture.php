@@ -46,7 +46,7 @@ if (isset($_GET['id']) && (isset($_SESSION['utilisateur']))) {
             $this->SetFont('Arial', 'B', 10);
             $this->Cell(60, 5, 'Client :', 0, 1, 'L');
             $this->SetXY(140, 25);
-            $this->Cell(60, 5,  $this->client, 0, 1, 'L');
+            $this->Cell(60, 5, iconv('UTF-8', 'windows-1252', $this->client) , 0, 1, 'L');
             $this->SetDrawColor(0, 0, 0); // Noir
             $this->SetLineWidth(0.3); // Épaisseur de la ligne
             $this->Line(190, 32, 140, 32); // x1, y1, x2, y2 (Ligne horizontale)
@@ -86,7 +86,7 @@ if (isset($_GET['id']) && (isset($_SESSION['utilisateur']))) {
 
     // Infos événement
     $pdf->SetFont('Arial', 'B', 14);
-    $pdf->Cell(0, 5, $result['eventTitle'], 0, 1, 'L');
+    $pdf->Cell(0, 5, iconv('UTF-8', 'windows-1252', $result['eventTitle']), 0, 1, 'L');
     $pdf->SetFont('Arial', '', 12);
     $pdf->Cell(0, 8,iconv('UTF-8', 'windows-1252', $formattedDateTime) , 0, 1, 'L');
     $pdf->Ln(5);

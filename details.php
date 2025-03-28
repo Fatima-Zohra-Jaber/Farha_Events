@@ -30,7 +30,7 @@
                 $totalReserved = getNbBillets($conn, $editionId);
                 $qtTotal = (int)$qtNormal + (int)$qtReduit;
                 if(($qtTotal + $totalReserved )> $capSalle) {
-                    $_SESSION['error'] ="La quantité demandée est supérieure à la capacité de la salle";
+                    $_SESSION['error'] ="Il ne reste que ".$capSalle - $totalReserved ." place pour cette édition.";
                 }else {
                     $_SESSION['reservation']['editionId'] = $editionId;
                     $_SESSION['reservation']['qtNormal'] = $qtNormal;
@@ -85,32 +85,42 @@
                     <p class="text-sm">Départ à <?=htmlspecialchars($edition['timeEvent'])?></p>
                     <p>Salle: <?=htmlspecialchars($edition['numSalle'])?></p>
                 </div>
-                <form action="" method="POST">
-                    <input type="hidden" name="editionId" value="<?= htmlspecialchars($id) ?>">
-                    
-                    <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
-                        <label for="tariff" class="block text-sm font-medium mb-2">
-                            <p>NORMAL (Adult)</p>
-                            <p><?= htmlspecialchars($edition['TariffNormal']) ?> MAD</p>
-                        </label>
-                        <input type="number" id="qtNormal" name="qtNormal" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />
-                    </div>
-                    <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
-                        <label for="tariff" class="block text-sm font-medium mb-2">
-                            <p>REDUIT (Enfant + Etudiant)</p>
-                            <p><?= htmlspecialchars($edition['TariffReduit']) ?> MAD</p>
-                        </label>
-                        <input type="number" id="qtReduit" name="qtReduit" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />     
-                    </div>
-                    
+                <?php 
+                 $capSalle = getCapSalle($conn, $_GET['id']);
+                 $totalReserved = getNbBillets($conn, $_GET['id']);
+                if ($capSalle > $totalReserved):?>
+                    <form action="" method="POST">
+                        <input type="hidden" name="editionId" value="<?= htmlspecialchars($id) ?>">
+                        
+                        <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
+                            <label for="tariff" class="block text-sm font-medium mb-2">
+                                <p>NORMAL (Adult)</p>
+                                <p><?= htmlspecialchars($edition['TariffNormal']) ?> MAD</p>
+                            </label>
+                            <input type="number" id="qtNormal" name="qtNormal" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />
+                        </div>
+                        <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
+                            <label for="tariff" class="block text-sm font-medium mb-2">
+                                <p>REDUIT (Enfant + Etudiant)</p>
+                                <p><?= htmlspecialchars($edition['TariffReduit']) ?> MAD</p>
+                            </label>
+                            <input type="number" id="qtReduit" name="qtReduit" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />     
+                        </div>
+                        
+                        <div class="flex justify-center items-center mb-4 px-2"> 
+                            <button type="submit" name="acheter" class="w-3/4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-3 px-4 rounded mb-2">
+                                Acheter maintenant
+                            </button>
+                        </div>
+                        <p class="text-center text-sm mb-6">Vite !! Achetez rapidement vos tickets</p>                                      
+                    </form>
+                <?php else:?>
                     <div class="flex justify-center items-center mb-4 px-2"> 
-                        <button type="submit" name="acheter" class="w-3/4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-3 px-4 rounded mb-2">
-                            Acheter maintenant
-                        </button>
+                        <a href="#" class="w-3/4 bg-slate-400  text-white text-center font-bold py-3 px-4 rounded mb-2">
+                            Guichet Fermé
+                        </a>
                     </div>
-                    <p class="text-center text-sm mb-6">Vite !! Achetez rapidement vos tickets</p>                                      
-                </form>
-               
+                <?php endif;?>
                 <!-- Compteur -->
                 <div class="flex justify-center gap-2 mb-2">
                     <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">

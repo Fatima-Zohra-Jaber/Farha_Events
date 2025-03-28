@@ -13,7 +13,8 @@
     $dateEnd = $_GET['dateEnd'] ?? '';
 
     if (!empty($titre)) {
-        $sql .= " AND (eventTitle LIKE :titre OR eventDescription LIKE :titre)";
+        $sql .= " AND (
+        eventTitle LIKE :titre OR eventDescription LIKE :titre)";
         $params[':titre'] = "%".$titre."%";
     }
     if (!empty($eventType)) {
@@ -29,7 +30,7 @@
  
   $stmt = $conn->prepare($sql);
   foreach ($params as $key => $value) {
-      $stmt->bindParam($key, $value, PDO::PARAM_STR);
+      $stmt->bindValue($key, $value, PDO::PARAM_STR);
   }
   $stmt->execute();
   $editions = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -52,53 +53,28 @@
     require 'header.php';
   ?>
   <!-- Section de recherche -->
-<div class="max-w-screen-xl mx-auto p-5 bg-gradient-to-r from-purple-800 to-indigo-700 rounded-lg shadow-lg">
+<div class="max-w-screen-xl mx-auto p-5  rounded-lg shadow-lg">
     <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <!-- Recherche par titre ou description -->
         <input type="search" name="titre" placeholder="Rechercher par titre ou description"
-            value="<?= htmlspecialchars($titre) ?>" class="p-2 border border-gray-300 rounded-lg">
-
-        <!-- Sélection du type d'événement -->
+            value="<?= isset($_GET['titre'])? htmlspecialchars($_GET['titre']):'' ?>" class="p-2 border border-gray-300 rounded-lg">
         <select name="type" class="p-2 border border-gray-300 rounded-lg">
             <option value="">Tous les types</option>
-            <option value="Cinéma" <?= $eventType == "Cinéma" ? "selected" : "" ?>>Cinéma</option>
-            <option value="Musique" <?= $eventType == "Musique" ? "selected" : "" ?>>Musique</option>
-            <option value="Théatre" <?= $eventType == "Théatre" ? "selected" : "" ?>>Théatre</option>
-            <option value="Rencontres" <?= $eventType == "Rencontres" ? "selected" : "" ?>>Rencontres</option>
-
+            <option value="Cinéma" <?= isset($_GET['type']) && $_GET['type']  == "Cinéma" ? "selected" : "" ?>>Cinéma</option>
+            <option value="Musique" <?= isset($_GET['type']) && $_GET['type']  == "Musique" ? "selected" : "" ?>>Musique</option>
+            <option value="Théatre" <?= isset($_GET['type']) && $_GET['type']  == "Théatre" ? "selected" : "" ?>>Théatre</option>
+            <option value="Rencontres" <?= isset($_GET['type']) && $_GET['type']  == "Rencontres" ? "selected" : "" ?>>Rencontres</option>
         </select>
-
-        <!-- Sélection des dates -->
-        <input type="date" name="dateStart" value="<?= $dateStart ?>" class="p-2 border border-gray-300 rounded-lg">
-        <input type="date" name="dateEnd" value="<?= $dateEnd ?>" class="p-2 border border-gray-300 rounded-lg">
-
-        <!-- Bouton de soumission -->
-        <button type="submit" name="search" class=" text-indigo-700 bg-white hover:bg-gray-100 px-4 py-2 rounded-lg">
+        <input type="date" name="dateStart" value="<?= isset($_GET['dateStart'])? $_GET['dateStart'] : "" ?>" class="p-2 border border-gray-300 rounded-lg">
+        <input type="date" name="dateEnd" value="<?= isset($_GET['dateEnd'])? $_GET['dateEnd'] : "" ?>" class="p-2 border border-gray-300 rounded-lg">
+        <button type="submit" name="search" class=" text-white bg-gradient-to-r from-purple-800 to-indigo-700 px-4 py-2 rounded-lg">
             Rechercher
         </button>
     </form>
 </div>
-  <!-- Hero background to show transparent navbar -->
-  <!-- <div class="bg-gradient-to-r from-purple-800 to-indigo-700 h-screen flex items-center justify-center">
-      <div class="text-center text-white px-4">
-          <h1 class="text-4xl font-extrabold sm:text-5xl md:text-6xl">
-              Welcome to Our Website
-          </h1>
-          <p class="mt-3 max-w-md mx-auto text-base text-gray-200 sm:text-lg md:mt-5 md:text-xl">
-              This transparent navbar works great with hero sections.
-          </p>
-          <div class="mt-10">
-              <a href="#" class="px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10">
-                  Get Started
-              </a>
-          </div>
-      </div>
-  </div> -->
+
 <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
     <div class="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-10">
         <?php
-        // ev.eventTitle, ev.eventDescription, ev.TariffReduit,
-        // ed.dateEvent, ed.timeEvent, ed.numSalle, ed.image
         foreach($editions as $edition):
           ?>
         <div class="rounded overflow-hidden shadow-lg">
@@ -120,7 +96,6 @@
                 <a href="details.php?id=<?= $edition['editionId'] ?>">
                     <div
                         class="text-sm absolute top-0 right-0 bg-indigo-600 px-4 text-white rounded-full h-16 w-16 flex flex-col items-center justify-center mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
-                        <!-- <span >15</span> -->
                         <small class="font-bold"> Détails Edition</small>
                     </div>
                 </a>
@@ -154,11 +129,21 @@
                     <p class="text-gray-500">À partir de</p>
                     <p class="text-indigo-600 "><?= $edition['TariffReduit'] ?> DH</p>
                 </div>
-                <a href="details.php?id=<?= $edition['editionId'] ?>" class=" bg-indigo-600 text-white px-4 py-2 rounded">
-                        J'achète
-                </a>
+                <?php 
+                 $capSalle = getCapSalle($conn, $edition['editionId']);
+                 $totalReserved = getNbBillets($conn, $edition['editionId']);
+                if ($capSalle > $totalReserved):?>
+                    <a href="details.php?id=<?= $edition['editionId'] ?>" class=" bg-indigo-600 text-white px-4 py-2 rounded">
+                            J'achète
+                    </a>
+                <?php else:?>
+                    <a href="details.php?id=<?= $edition['editionId'] ?>" class=" bg-slate-400 text-white px-4 py-2 rounded">
+                            Guichet Fermé
+                    </a>
+                <?php endif;?>
             </div>
         </div>
+        
         <?php
           endforeach;
         ?>
