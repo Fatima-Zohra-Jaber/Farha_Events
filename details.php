@@ -63,14 +63,54 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script >//src="tailwind.config.js"
 
+tailwind.config = {
+    theme: {
+        extend: {
+        colors: {
+            primary: {
+                50: '#f3f0ff',
+                100: '#e5e0ff',
+                200: '#cdbbff',
+                300: '#a48aff',
+                400: '#7a56ff',
+                500: '#5a30e0',
+                600: '#4415c0',
+                700: '#350fa0',
+                800: '#2b0c80',
+                900: '#23096b',
+            },
+            accent: {
+                50: '#fff0f7',
+                100: '#ffd9ec',
+                200: '#ffb3d9',
+                300: '#ff80bf',
+                400: '#ff4da6',
+                500: '#ff1a8c',
+                600: '#e00074',
+                700: '#b3005c',
+                800: '#800044',
+                900: '#660033',
+            }
+        },
+            fontFamily: {
+                sans: ['Poppins', 'sans-serif'],
+            },
+        }
+    }
+};
+</script>
 </head>
 <body class="bg-gray-100">
     <?php
         require 'header.php';
+        $date = DateTime::createFromFormat( 'Y-m-d',$edition['dateEvent'] );
+                                $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
+                                $formatter->setPattern('EEEE d MMMM y');
     ?>
     <div class="max-w-6xl mx-auto p-4">
-        <h1 class="text-3xl font-bold text-center mb-6"><?=htmlspecialchars($edition['eventTitle'])?></h1>
+        <h1 class="text-3xl font-bold text-primary-700 text-center my-6"><?=htmlspecialchars($edition['eventTitle'])?></h1>
         
         <div class="flex flex-col md:flex-row gap-4">
             <div class="w-full md:w-2/3">
@@ -79,9 +119,9 @@
                 </div>
             </div>
             
-            <div class="w-full md:w-1/3 bg-gray-900 text-white rounded-lg shadow-lg p-6">                               
+            <div class="w-full md:w-1/3 bg-primary-900 text-white rounded-lg shadow-lg p-6">                               
                 <div class="text-center mb-6">
-                    <h3 class="font-bold mb-1"><?=htmlspecialchars($edition['dateEvent'])?></h3>
+                    <h3 class="font-bold mb-1"><?=$formatter->format($date)?></h3>
                     <p class="text-sm">Départ à <?=htmlspecialchars($edition['timeEvent'])?></p>
                     <p>Salle: <?=htmlspecialchars($edition['numSalle'])?></p>
                 </div>
@@ -92,14 +132,14 @@
                     <form action="" method="POST">
                         <input type="hidden" name="editionId" value="<?= htmlspecialchars($id) ?>">
                         
-                        <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
+                        <div class="flex justify-between items-center mb-4 text-xs bg-primary-500 bg-opacity-40 p-3 rounded">
                             <label for="tariff" class="block text-sm font-medium mb-2">
                                 <p>NORMAL (Adult)</p>
                                 <p><?= htmlspecialchars($edition['TariffNormal']) ?> MAD</p>
                             </label>
                             <input type="number" id="qtNormal" name="qtNormal" placeholder="Quantité" min="0" max="50" class="w-1/3 p-2 border rounded text-black" />
                         </div>
-                        <div class="flex justify-between items-center mb-4 text-xs bg-indigo-800 bg-opacity-40 p-3 rounded">
+                        <div class="flex justify-between items-center mb-4 text-xs bg-primary-500 bg-opacity-40 p-3 rounded">
                             <label for="tariff" class="block text-sm font-medium mb-2">
                                 <p>REDUIT (Enfant + Etudiant)</p>
                                 <p><?= htmlspecialchars($edition['TariffReduit']) ?> MAD</p>
@@ -108,7 +148,7 @@
                         </div>
                         
                         <div class="flex justify-center items-center mb-4 px-2"> 
-                            <button type="submit" name="acheter" class="w-3/4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-3 px-4 rounded mb-2">
+                            <button type="submit" name="acheter" class="w-3/4 bg-accent-500 hover:bg-accent-600 text-white text-sm font-bold py-3 px-4 rounded mb-2">
                                 Acheter maintenant
                             </button>
                         </div>
@@ -123,32 +163,39 @@
                 <?php endif;?>
                 <!-- Compteur -->
                 <div class="flex justify-center gap-2 mb-2">
-                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
-                        <span class="font-bold" id="days">--</span>
-                        <span class="text-xs">Jours</span>
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="days">--</span>
+                        <span class="text-xs mt-1">Jours</span>
                     </div>
-                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
-                        <span class="font-bold" id="hours">--</span>
-                        <span class="text-xs">Heure</span>
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="hours">--</span>
+                        <span class="text-xs mt-1">Heure</span>
                     </div>
-                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
-                        <span class="font-bold" id="minutes">--</span>
-                        <span class="text-xs">Minute</span>
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="minutes">--</span>
+                        <span class="text-xs mt-1">Minute</span>
                     </div>
-                    <div class="bg-indigo-800 bg-opacity-20 w-12 h-12 rounded-full flex flex-col items-center justify-center">
-                        <span class="font-bold" id="seconds">--</span>
-                        <span class="text-xs">Second</span>
+                    <div class="flex flex-col items-center justify-center">
+                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="seconds">--</span>
+                        <span class="text-xs mt-1">Second</span>
                     </div>
                 </div>
                 
               
             </div>
         </div>
+        <div class="mt-10 bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-2xl font-semibold text-primary-900">Description</h3>
+            <hr class="my-3">
+            <p class="text-gray-700"> <?= htmlspecialchars($edition['eventDescription']) ?> </p>
+        </div>
     </div>
-    <div>
-        <h3>Description</h3><hr/>
-        <p><?=htmlspecialchars($edition['eventDescription'])?></p>
-    </div>
+    
+    <!-- Footer Section -->
+    <?php
+        require 'footer.php';
+    ?>
+
 <?php 
  $eventDate = $edition['dateEvent'] . ' ' . $edition['timeEvent'] ;
  $redirectUrl=isset($_SESSION['error']) && $_SESSION['error'] === 'Veuillez vous connecter avant de commander.' ? 'login.php' : '';

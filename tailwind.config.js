@@ -1,25 +1,37 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"], // Adjust paths based on your project
-    theme: {
-      extend: {
-        colors: {
-          customPurple: "#4A21A5",
-
-          blueText: "#0075c9",
-          blueBackground: "#0a58ca",
-          redErrors: "#f44336",
-          grayBackground: "#f5f7fa",
-          brandblue: "#0075c9",
-          branddarkblue: "#0a58ca",
-          brandtextblue: "#041d43",
-        },
-        fontFamily: {
-          roboto: ["Roboto", "sans-serif"],
-          "roboto-bold": ["Roboto-Bold", "sans-serif"],
-          "roboto-bolder": ["Roboto-ExtraBold", "sans-serif"],
-        },
-      },
-    },
-    plugins: [],
-  };
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"], // Adjust paths based on your project
+  tailwind.config = {
+            theme: {
+                extend: {
+                  colors: {
+                    primary: {
+                        50: '#f3f0ff',
+                        100: '#e5e0ff',
+                        200: '#cdbbff',
+                        300: '#a48aff',
+                        400: '#7a56ff',
+                        500: '#5a30e0',
+                        600: '#4415c0',
+                        700: '#350fa0',
+                        800: '#2b0c80',
+                        900: '#23096b',
+                    },
+                    accent: {
+                        50: '#fff0f7',
+                        100: '#ffd9ec',
+                        200: '#ffb3d9',
+                        300: '#ff80bf',
+                        400: '#ff4da6',
+                        500: '#ff1a8c',
+                        600: '#e00074',
+                        700: '#b3005c',
+                        800: '#800044',
+                        900: '#660033',
+                    }
+                },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+          }

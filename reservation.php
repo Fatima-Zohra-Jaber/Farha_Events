@@ -100,7 +100,7 @@ require 'config.php';
 <body class="bg-gray-100 p-8">
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg px-4">
         <div class="p-6 border-b">
-            <h1 class="text-2xl font-bold text-gray-800">Confirmer ma reservation</h1>
+            <h1 class="text-2xl font-bold text-[#350fa0]">Confirmer ma reservation</h1>
         </div>
         <form action="" method="POST">
             <div class="divide-y">
@@ -115,7 +115,7 @@ require 'config.php';
                         <!-- <button class="text-red-500 text-sm">✕</button> -->
 
                         <p class="font-semibold"><?= $edition['TariffNormal'] ?> MAD</p>
-                        <p class="text-sm text-gray-500">Sous-total: <?= $edition['TariffNormal'] * $qtNormal ?> MAD</p>
+                        <p class="text-sm text-gray-500">Sous-total: <?=  number_format(($edition['TariffNormal'] * $qtNormal), 2, ',', ' ') ?> MAD</p>
                     </div>
                 </div>
                 <div class="flex p-4 items-center">
@@ -128,7 +128,7 @@ require 'config.php';
                     <div class="text-right">
                         <!-- <button class="text-red-500 text-sm">✕</button> -->
                         <p class="font-semibold"><?= $edition['TariffReduit'] ?> MAD</p>
-                        <p class="text-sm text-gray-500">Sous-total: <?= $edition['TariffReduit'] * $qtReduit ?> MAD</p>
+                        <p class="text-sm text-gray-500">Sous-total: <?=  number_format(($edition['TariffReduit'] * $qtReduit), 2, ',', ' ') ?> MAD</p>
                     </div>
                 </div>
             </div>
@@ -142,11 +142,11 @@ require 'config.php';
 
                     <div class="mb-4">
                         <span class="text-xl font-bold">Total à payer:</span>
-                        <span class="text-xl font-bold ml-2"><?= ($qtNormal * $edition['TariffNormal']) + ($qtReduit * $edition['TariffReduit']) ?></span>
+                        <span class="text-xl font-bold ml-2"><?= number_format((($qtNormal * $edition['TariffNormal']) + ($qtReduit * $edition['TariffReduit'])), 2, ',', ' ')?> MAD</span>
                     </div>
                 </div>
 
-                <button name="reserver" class="text-right bg-indigo-500 text-white p-2 rounded hover:bg-indigo-600">
+                <button name="reserver" class="text-right bg-[#ff1a8c] hover:bg-[#e00074] text-white p-2 rounded ">
                     Passer ma reservation
                 </button>
             </div>
@@ -170,7 +170,7 @@ require 'config.php';
                     </svg>
                 </div>
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    <h3 class="text-lg leading-6 font-medium text-[#350fa0]">
                         Réservation
                     </h3>
                     <div class="mt-2 mb-4">
