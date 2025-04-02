@@ -1,6 +1,6 @@
 <?php
 require 'config.php';
-// if (isset($_GET['id'])) {
+
     function getIdBillet($conn){
         $sqlId = "SELECT billetId FROM billet ORDER by billetId DESC LIMIT 1";
         $stmtId = $conn->prepare($sqlId);
@@ -35,8 +35,7 @@ require 'config.php';
         $qtReduit = (int)$_SESSION['reservation']['qtReduit'];
         $idUser = $_SESSION['utilisateur']['idUser'];
         $sql = "SELECT ev.eventTitle, ev.eventType, ev.TariffNormal, ev.TariffReduit, ed.image
-                    FROM evenement ev
-                    JOIN edition ed ON ev.eventId = ed.eventId
+                    FROM evenement ev JOIN edition ed ON ev.eventId = ed.eventId
                     WHERE ed.editionId = :id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id', $idEdition);
@@ -112,8 +111,6 @@ require 'config.php';
                         <input type="number" name="qtNormal" disabled value="<?= $qtNormal ?>" class="w-16 border rounded text-center mt-2">
                     </div>
                     <div class="text-right">
-                        <!-- <button class="text-red-500 text-sm">✕</button> -->
-
                         <p class="font-semibold"><?= $edition['TariffNormal'] ?> MAD</p>
                         <p class="text-sm text-gray-500">Sous-total: <?=  number_format(($edition['TariffNormal'] * $qtNormal), 2, ',', ' ') ?> MAD</p>
                     </div>
@@ -126,7 +123,6 @@ require 'config.php';
                         <input type="number" name="qtReduit" disabled value="<?= $qtReduit ?>" class="w-16 border rounded text-center mt-2">
                     </div>
                     <div class="text-right">
-                        <!-- <button class="text-red-500 text-sm">✕</button> -->
                         <p class="font-semibold"><?= $edition['TariffReduit'] ?> MAD</p>
                         <p class="text-sm text-gray-500">Sous-total: <?=  number_format(($edition['TariffReduit'] * $qtReduit), 2, ',', ' ') ?> MAD</p>
                     </div>

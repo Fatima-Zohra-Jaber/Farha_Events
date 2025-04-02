@@ -1,6 +1,10 @@
 <?php
     require('config.php');
-    if (isset($_GET['id']) && (isset($_SESSION['utilisateur']))) {
+    
+    if (!isset($_GET['id']) || (!isset($_SESSION['utilisateur']))) {
+        header("Location: index.php");
+        exit();
+    }
     $id = $_GET['id'];
     $sql = "SELECT ev.eventTitle, ev.TariffNormal,ev.TariffReduit,ed.dateEvent, 
                     ed.timeEvent, r.qteBilletsNormal,r.qteBilletsReduit,ed.numSalle,
@@ -23,7 +27,6 @@
     $formatter->setPattern('EEEE d MMMM y \'À\' HH\'H\'mm');
     
     // echo mb_strtoupper($formatter->format($dateTime));
-
     // phpinfo();
  
 ?>
@@ -48,7 +51,6 @@
             <div class="titre">
                 <h1><?=$billet['eventTitle']?></h1>
                 <div class="date"><?= mb_strtoupper($formatter->format($dateTime))?></div>
-            <!-- SAMEDI 27 JANVIER 2024 À 20H00 -->
             </div>
             
             <div class="info">
@@ -101,8 +103,4 @@
 
 </body>
 </html>
-<?php
-    } else {
-        header("Location: index.php");
-        exit();
-    }
+   

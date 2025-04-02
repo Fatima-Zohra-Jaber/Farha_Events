@@ -1,17 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-    /* height: 100vh; */
     background-color: #f4f4f4;
     width: 80%;
     margin: 2rem auto;
@@ -40,13 +35,11 @@ body {
     padding: 20px 15px;
     position: relative;
 }
-
 .ticket-number{
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-size: 1.1rem;
 }
-
 .circle {
     width: 60px;
     height: 60px;
@@ -116,6 +109,7 @@ h2{
     font-weight:500;
     
 }
+
 /* SECTION DROITE */
 .right-section {
     width: 23%;
@@ -128,7 +122,6 @@ h2{
     border-left: 4px dashed black;
     
 }
-
 .cercleHaut,.cercleBas{
     width: 60px;
     height: 60px;
@@ -186,17 +179,4 @@ h2{
     height: 40px;
     background: black;
     border-radius: 50%;
-}
-
-.colors{
-color: #f0f7ff;
-color: #e0effe;
-color: #bae0fd;
-color: #7cc8fa;
-color: #36acf5;
-color: #0d92e0;
-color: #0074be;
-color: #005c9a;
-color: #024d7f;
-color: #08426b;
 }

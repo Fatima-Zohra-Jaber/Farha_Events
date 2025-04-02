@@ -51,8 +51,8 @@ if (isset($_SESSION['utilisateur'])) {
                     <?php foreach ($reservations as $reservation): ?>
                     <tr class="bg-white hover:bg-gray-100">
                         <td class="px-6 py-4 font-medium"> <?= $reservation['idReservation'] ?> </td>
-                        <td class="px-6 py-4"> <?= htmlspecialchars($reservation['eventTitle']) ?> </td>
-                        <td class="px-6 py-4"> <?= htmlspecialchars($reservation['dateEvent'] . ' ' . $reservation['timeEvent']) ?> </td>
+                        <td class="px-6 py-4"> <?= $reservation['eventTitle'] ?> </td>
+                        <td class="px-6 py-4"> <?= $reservation['dateEvent'] . ' ' . $reservation['timeEvent'] ?> </td>
                         <td class="px-6 py-4"> <?= $reservation['qteBilletsNormal'] ?> </td>
                         <td class="px-6 py-4"> <?= $reservation['qteBilletsReduit'] ?> </td>
                         <td class="px-6 py-4 font-semibold"> 

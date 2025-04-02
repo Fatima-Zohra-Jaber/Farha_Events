@@ -42,17 +42,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farha Events</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script >//src="tailwind.config.js"
-
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script >
         tailwind.config = {
             theme: {
                 extend: {
                 colors: {
                     primary: {
-                        50: '#f3f0ff',
+                         50: '#f3f0ff',
                         100: '#e5e0ff',
                         200: '#cdbbff',
                         300: '#a48aff',
@@ -64,7 +63,7 @@
                         900: '#23096b',
                     },
                     accent: {
-                        50: '#fff0f7',
+                         50: '#fff0f7',
                         100: '#ffd9ec',
                         200: '#ffb3d9',
                         300: '#ff80bf',
@@ -87,9 +86,9 @@
   
 </head>
 <body>
-  <?php
-    require 'header.php';
-  ?>
+    <?php
+        require 'header.php';
+    ?>
    <!-- Hero Section -->
    <div class="bg-gradient-to-r from-primary-700 to-accent-500 text-white pt-16 pb-20">
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,40 +98,40 @@
             </div>
         </div>
     </div>
-  <!-- Section de recherche -->
-  <div class="max-w-screen-xl mx-auto -mt-8 px-4 sm:px-6 lg:px-8">
-  <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
-    <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <input type="search" name="titre" placeholder="Rechercher par titre ou description"
-            value="<?= isset($_GET['titre'])? htmlspecialchars($_GET['titre']):'' ?>" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-200"> 
-        <select name="type" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500">
-            <option value="">Tous les types</option>
-            <option value="Cinéma" <?= isset($_GET['type']) && $_GET['type']  == "Cinéma" ? "selected" : "" ?>>Cinéma</option>
-            <option value="Musique" <?= isset($_GET['type']) && $_GET['type']  == "Musique" ? "selected" : "" ?>>Musique</option>
-            <option value="Théatre" <?= isset($_GET['type']) && $_GET['type']  == "Théatre" ? "selected" : "" ?>>Théatre</option>
-            <option value="Rencontres" <?= isset($_GET['type']) && $_GET['type']  == "Rencontres" ? "selected" : "" ?>>Rencontres</option>
-        </select>
-        <input type="date" name="dateStart" value="<?= isset($_GET['dateStart'])? $_GET['dateStart'] : "" ?>" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500">
-        <input type="date" name="dateEnd" value="<?= isset($_GET['dateEnd'])? $_GET['dateEnd'] : "" ?>" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500">
-        <button type="submit" name="search" class="text-white bg-accent-600 hover:bg-accent-700 focus:outline-none px-4 py-2 rounded-lg">             
-            Rechercher
-        </button>
-    </form>
-</div>
-</div>
+    <!-- Section de recherche -->
+    <div class="max-w-screen-xl mx-auto -mt-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <input type="search" name="titre" placeholder="Rechercher par titre ou description"
+                value="<?= isset($_GET['titre'])? htmlspecialchars($_GET['titre']):'' ?>" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500 transition duration-200"> 
+            <select name="type" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500">
+                <option value="">Tous les types</option>
+                <option value="Cinéma" <?= isset($_GET['type']) && $_GET['type']  == "Cinéma" ? "selected" : "" ?>>Cinéma</option>
+                <option value="Musique" <?= isset($_GET['type']) && $_GET['type']  == "Musique" ? "selected" : "" ?>>Musique</option>
+                <option value="Théatre" <?= isset($_GET['type']) && $_GET['type']  == "Théatre" ? "selected" : "" ?>>Théatre</option>
+                <option value="Rencontres" <?= isset($_GET['type']) && $_GET['type']  == "Rencontres" ? "selected" : "" ?>>Rencontres</option>
+            </select>
+            <input type="date" name="dateStart" value="<?= isset($_GET['dateStart'])? $_GET['dateStart'] : "" ?>" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500">
+            <input type="date" name="dateEnd" value="<?= isset($_GET['dateEnd'])? $_GET['dateEnd'] : "" ?>" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500">
+            <button type="submit" name="search" class="text-white bg-accent-600 hover:bg-accent-700 focus:outline-none px-4 py-2 rounded-lg">             
+                Rechercher
+            </button>
+        </form>
+    </div>
+    </div>
         
   
-<!--  Section des évènements -->
-<div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!--  Section des évènements -->
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <?php foreach($editions as $edition): ?>
             <div class="bg-white rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-xl transform hover:-translate-y-1">
                 <div class="relative aspect-w-16 aspect-h-9">
-                  <a href="details.php?id=<?= $edition['editionId'] ?>" >
-                    <img class="h-56 w-full object-cover" src="images/<?= $edition['image'] ?>" alt="<?= $edition['eventTitle'] ?>">
-                  </a>
+                    <a href="details.php?id=<?= $edition['editionId'] ?>">
+                        <img class="h-56 w-full object-cover" src="images/<?= $edition['image'] ?>" alt="<?= $edition['eventTitle'] ?>">
+                    </a>
                     <div class="absolute top-0 right-0 m-4">
-                        <div class="bg-accent-500 text-white text-xs font-bold uppercase rounded-full px-3 py-1">
+                        <div class="bg-accent-500 text-white text-xs font-bold uppercase rounded-full px-3 py-1.5">
                             <?= $edition['eventType'] ?>
                         </div>
                     </div>
