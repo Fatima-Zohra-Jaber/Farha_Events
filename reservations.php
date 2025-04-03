@@ -17,7 +17,7 @@ if (isset($_SESSION['utilisateur'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -27,10 +27,10 @@ if (isset($_SESSION['utilisateur'])) {
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 
-<body class="bg-gray-100 font-sans text-gray-900">
+<body class="bg-gray-50">
     <?php require 'header.php'; ?>
 
-    <div class="max-w-6xl mx-auto p-6">
+    <div class="font-sans text-gray-900 max-w-6xl mx-auto p-6">
         <h1 class="text-4xl font-bold text-center mb-4 text-[#350fa0]">Mes réservations</h1>
         <p class="text-center text-gray-600 mb-6">Consultez et téléchargez vos factures et tickets.</p>
 

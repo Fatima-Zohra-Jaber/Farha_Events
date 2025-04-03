@@ -100,14 +100,14 @@ tailwind.config = {
 };
 </script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50" >
     <?php
         require 'header.php';
         $date = DateTime::createFromFormat( 'Y-m-d',$edition['dateEvent'] );
                                 $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
                                 $formatter->setPattern('EEEE d MMMM y');
     ?>
-    <div class="max-w-6xl mx-auto p-4">
+    <div class="max-w-6xl mx-auto p-4 ">
         <h1 class="text-3xl font-bold text-primary-700 text-center my-6"><?=htmlspecialchars($edition['eventTitle'])?></h1>
         
         <div class="flex flex-col md:flex-row gap-4">

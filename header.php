@@ -3,16 +3,13 @@
     <nav x-data="{ open: false }" class="bg-white shadow-md backdrop-blur-lg dark:bg-gray-900 dark:shadow-lg">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="relative flex h-20 items-center justify-between">
-                <!-- Logo and Desktop Navigation -->
                 <div class="flex items-center">
-                    <!-- Logo -->
                     <div class="flex-shrink-0">
                         <a href="index.php">
                             <img class="h-16 w-auto" src="images/logo.png" alt="Farha Event Logo">
                         </a>
                     </div>
 
-                    <!-- Desktop Navigation Links -->
                     <div class="hidden lg:ml-10 lg:block">
                         <div class="flex space-x-4">
                             <a href="index.php" class="text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
@@ -22,7 +19,6 @@
                     </div>
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <div class="flex lg:hidden">
                     <button 
                         @click="open = !open" 
@@ -40,10 +36,8 @@
                     </button>
                 </div>
 
-                <!-- User Actions -->
                 <div class="hidden lg:block">
                     <?php if(isset($_SESSION['utilisateur'])): ?>
-                        <!-- Logged-in User Dropdown -->
                         <div x-data="{ dropdown: false }" class="relative">
                             <div class="flex items-center px-4">
                                 <button 
@@ -73,14 +67,13 @@
                                 class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg"
                             >
                                 <div class="py-1">
-                                    <a href="profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                    <a href="profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mon profil</a>
                                     <a href="reservations.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mes Réservations</a>
                                     <a href="logout.php" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Déconnexion</a>
                                 </div>
                             </div>
                         </div>
                     <?php else: ?>
-                        <!-- Login/Register Buttons -->
                         <div class="flex space-x-2">
                             <a href="login.php" class="bg-primary-600 text-white hover:bg-accent-600 px-3 py-2 rounded-md text-sm font-medium ">
                                 Se connecter
@@ -118,13 +111,12 @@
                                 </div>
                             </div>
                             <div class="mt-3 space-y-1 px-2">
-                                <a href="profile.php" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Profil</a>
+                                <a href="profile.php" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Mon profil</a>
                                 <a href="reservations.php" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Mes Réservations</a>
                                 <a href="logout.php" class="block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-gray-100">Déconnexion</a>
                             </div>
                         </div>
                         <?php else: ?>
-                          <!-- Login/Register Buttons -->
                           <div class="flex space-x-2">
                               <a href="login.php" class="bg-primary-600 text-white hover:bg-accent-600 px-3 py-2 rounded-md text-sm font-medium">
                                   Se connecter
@@ -138,3 +130,5 @@
             </div>
         </div>
     </nav>
+
+  

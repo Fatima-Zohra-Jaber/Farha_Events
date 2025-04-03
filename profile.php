@@ -76,7 +76,7 @@ require 'config.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
 </head>
@@ -141,7 +141,7 @@ require 'config.php';
 
             <div>
                 <button name="modifier"
-                    class="flex w-full justify-center rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    class="flex w-full justify-center rounded-md bg-[#4415c0] hover:bg-[#350fa0] px-4 py-2.5 text-sm/6 font-semibold text-white shadow-xs  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Modifier
                 </button>
             </div>
