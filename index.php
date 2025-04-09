@@ -37,14 +37,13 @@
   
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farha Events</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script >
         tailwind.config = {
             theme: {
@@ -75,20 +74,18 @@
                         900: '#660033',
                     }
                 },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
+                    
                 }
             }
         };
     </script>
-
-  
 </head>
+
 <body>
     <?php
         require 'header.php';
     ?>
+
    <!-- Hero Section -->
    <div class="bg-gradient-to-r from-primary-700 to-accent-500 text-white pt-16 pb-20">
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -98,6 +95,7 @@
             </div>
         </div>
     </div>
+
     <!-- Section de recherche -->
     <div class="max-w-screen-xl mx-auto -mt-8 px-4 sm:px-6 lg:px-8">
     <div class="bg-white rounded-lg shadow-xl p-6 md:p-8">
@@ -119,7 +117,6 @@
         </form>
     </div>
     </div>
-        
   
     <!--  Section des évènements -->
     <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -195,7 +192,6 @@
         <?php endif; ?>
     </div>
 
-     
     <!-- Footer Section -->
     <?php
         require 'footer.php';

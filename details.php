@@ -39,7 +39,7 @@
                     exit();
                 }
             } else {
-                $_SESSION['error'] ="La valeur de quantity doit être supérieure ou égale à 1.";
+                $_SESSION['error'] ="La valeur de quantité doit être supérieure ou égale à 1.";
             }
         } catch (PDOException $e) {
             error_log("Reservation error: " . $e->getMessage());
@@ -59,7 +59,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script >
 
@@ -91,10 +90,8 @@ tailwind.config = {
                 800: '#800044',
                 900: '#660033',
             }
-        },
-            fontFamily: {
-                sans: ['Poppins', 'sans-serif'],
-            },
+        }
+           
         }
     }
 };
@@ -162,19 +159,19 @@ tailwind.config = {
                 <!-- Compteur -->
                 <div class="flex justify-center gap-2 mb-2">
                     <div class="flex flex-col items-center justify-center">
-                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="days">--</span>
+                        <span class="w-10 h-10 rounded-full border-2 border-accent-500 flex items-center justify-center" id="days">--</span>
                         <span class="text-xs mt-1">Jours</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="hours">--</span>
+                        <span class="w-10 h-10 rounded-full border-2 border-accent-500 flex items-center justify-center" id="hours">--</span>
                         <span class="text-xs mt-1">Heure</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="minutes">--</span>
+                        <span class="w-10 h-10 rounded-full border-2 border-accent-500 flex items-center justify-center" id="minutes">--</span>
                         <span class="text-xs mt-1">Minute</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <span class="w-10 h-10 rounded-full font-bold border-2 border-accent-500 flex items-center justify-center" id="seconds">--</span>
+                        <span class="w-10 h-10 rounded-full border-2 border-accent-500 flex items-center justify-center" id="seconds">--</span>
                         <span class="text-xs mt-1">Second</span>
                     </div>
                 </div>

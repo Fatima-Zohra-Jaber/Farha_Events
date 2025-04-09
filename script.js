@@ -29,7 +29,7 @@
 
 
 
-// // Modal
+// Modal
 
 document.addEventListener('DOMContentLoaded', function() {
     let modal = document.getElementById('modelConfirm');
